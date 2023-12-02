@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "run": "npx tsc && node index.js"
+    "run": "npx tsc && node built/index.js"
   },
   "devDependencies": {
     "typescript": "^5.3.2"

@@ -9,5 +9,6 @@
         "strict": true,
         "lib": ["ES2022","DOM"],
         "target": "ES2017",
+        "outDir": "./built",
       },
 }

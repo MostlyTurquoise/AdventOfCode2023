@@ -23,7 +23,7 @@ class Day {
         if (task == 1) {
             return __classPrivateFieldGet(this, _Day_runTask1, "f").call(this);
         }
-        else if (task == 2) {
+        else if (task == 2 && __classPrivateFieldGet(this, _Day_runTask2, "f")) {
             return __classPrivateFieldGet(this, _Day_runTask2, "f").call(this);
         }
         else {

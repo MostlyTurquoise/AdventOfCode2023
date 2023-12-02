@@ -4,7 +4,8 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 import day1 from "./day1/index.js";
-let daylist = [day1,];
+import day2 from "./day2/index.js";
+let daylist = [day1, day2];
 console.log("Please choose a day:");
 for (let i = 0; i < 25; i++) {
     if (i < daylist.length) {
