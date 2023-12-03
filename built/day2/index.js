@@ -26,7 +26,9 @@ function task1() {
                 for (let j = 0; j < throws.length; j++) {
                     let thisThrow = throws[j];
                     if (thisThrow.indexOf("red") >= 0) {
-                        let justNo = thisThrow.replace("red", "").trim();
+                        let justNo = thisThrow
+                            .replace("red", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (valid) {
                             valid = no <= max.red;
@@ -34,7 +36,9 @@ function task1() {
                         console.log(thisThrow + " red", !(no <= max.red));
                     }
                     else if (thisThrow.indexOf("blue") >= 0) {
-                        let justNo = thisThrow.replace("blue", "").trim();
+                        let justNo = thisThrow
+                            .replace("blue", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (valid) {
                             valid = no <= max.blue;
@@ -42,7 +46,9 @@ function task1() {
                         console.log(thisThrow + " blue", !(no <= max.blue));
                     }
                     else if (thisThrow.indexOf("green") >= 0) {
-                        let justNo = thisThrow.replace("green", "").trim();
+                        let justNo = thisThrow
+                            .replace("green", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (valid) {
                             valid = no <= max.green;
@@ -88,7 +94,9 @@ function task2() {
                 for (let j = 0; j < throws.length; j++) {
                     let thisThrow = throws[j];
                     if (thisThrow.indexOf("red") >= 0) {
-                        let justNo = thisThrow.replace("red", "").trim();
+                        let justNo = thisThrow
+                            .replace("red", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (no > min.red) {
                             min.red = no;
@@ -96,7 +104,9 @@ function task2() {
                         console.log(thisThrow + " red", !(no <= min.red));
                     }
                     else if (thisThrow.indexOf("blue") >= 0) {
-                        let justNo = thisThrow.replace("blue", "").trim();
+                        let justNo = thisThrow
+                            .replace("blue", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (no > min.blue) {
                             min.blue = no;
@@ -104,7 +114,9 @@ function task2() {
                         console.log(thisThrow + " blue", !(no <= min.blue));
                     }
                     else if (thisThrow.indexOf("green") >= 0) {
-                        let justNo = thisThrow.replace("green", "").trim();
+                        let justNo = thisThrow
+                            .replace("green", "")
+                            .trim();
                         let no = parseInt(justNo);
                         if (no > min.green) {
                             min.green = no;
