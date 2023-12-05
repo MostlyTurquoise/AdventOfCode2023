@@ -7,7 +7,8 @@ import day1 from "./day1/index.js";
 import day2 from "./day2/index.js";
 import day3 from "./day3/index.js";
 import day4 from "./day4/index.js";
-let daylist = [day1, day2, day3, day4];
+import day5 from "./day5/index.js";
+let daylist = [day1, day2, day3, day4, day5];
 console.log("Please choose a day:");
 for (let i = 0; i < 25; i++) {
     if (i < daylist.length) {
