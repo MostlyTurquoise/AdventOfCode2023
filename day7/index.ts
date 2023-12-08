@@ -11,7 +11,6 @@ let cardValues = [
     "A",
     "K",
     "Q",
-    "J",
     "T",
     "9",
     "8",
@@ -21,7 +20,7 @@ let cardValues = [
     "4",
     "3",
     "2",
-    "1",
+    "J",
 ];
 enum HandType {
     FiveOfAKind,
@@ -31,69 +30,26 @@ enum HandType {
     TwoPair,
     OnePair,
     HighCard,
+    Null
 }
 
-function compareHands(a: Hand, b: Hand, pos = 0): Hand {
+function compareHands(a: Hand, b: Hand, pos = 0): number {
     if (cardValues.indexOf(a.cards[pos]) < cardValues.indexOf(b.cards[pos])) {
-        return a;
+        return 1;
     } else if (
         cardValues.indexOf(a.cards[pos]) > cardValues.indexOf(b.cards[pos])
     ) {
-        return b;
-    } else if (
-        cardValues.indexOf(a.cards[pos]) === cardValues.indexOf(b.cards[pos])
-    ) {
-        return compareHands(a, b, pos + 1);
+        return -1;
     } else {
-        return {
-            cards: "INVALID",
-            bet: -14,
-        };
+        return compareHands(a, b, pos + 1);
     }
 }
 
 function task1() {
     let input: string = fs.readFileSync("./day7/testcase.txt").toString();
     let lines = input.split("\n");
+    console.log(lines);
     let hands: Hand[] = [];
-    let highest: Hand[] = [
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        },
-        {
-            cards: "11111",
-            bet: 0,
-            type: 0,
-        }
-    ]
-    let scores: number[] = [0, 0, 0, 0, 0, 0, 0];
     lines.forEach((hand, i) => {
         let [cards, bet] = hand.split(" ");
         let maxCards: [string, unknown][] = maxCount(cards);
@@ -102,61 +58,72 @@ function task1() {
             bet: parseInt(bet),
             type: HandType.HighCard,
         };
-        if (maxCards[0][1] === 5) {
+        // console.log(maxCards)
+        let highestCardCount: unknown = -1;
+        maxCards.forEach(([val, no], i) => {
+            if (val != "J" && highestCardCount == -1) {
+                highestCardCount = no;
+            }
+        });
+        maxCards.forEach(([val, no], i) => {
+            if (val == "J") {
+                //@ts-ignore
+                highestCardCount += no;
+                maxCards.splice(i, 1);
+            }
+        });
+        console.log(maxCards, highestCardCount);
+        if (highestCardCount === 5) {
             thisHand.type = HandType.FiveOfAKind;
-            scores[HandType.FiveOfAKind]++;
-            highest[HandType.FiveOfAKind] = compareHands(thisHand, highest[HandType.FiveOfAKind]);
-        } else if (maxCards[0][1] === 4) {
+        } else if (highestCardCount === 4) {
             thisHand.type = HandType.FourOfAKind;
-            scores[HandType.FourOfAKind]++;
-            highest[HandType.FourOfAKind] = compareHands(thisHand, highest[HandType.FourOfAKind]);
-        } else if (
-            maxCards[0][1] === 3 &&
-            maxCards[1] &&
-            maxCards[1][1] === 2
-        ) {
-            thisHand.type = HandType.FullHouse;
-            scores[HandType.FullHouse]++;
-            highest[HandType.FullHouse] = compareHands(thisHand, highest[HandType.FullHouse]);
-        } else if (maxCards[0][1] === 3) {
+        } else if (highestCardCount === 3) {
             thisHand.type = HandType.ThreeOfAKind;
-            scores[HandType.ThreeOfAKind]++;
-            highest[HandType.ThreeOfAKind] = compareHands(thisHand, highest[HandType.ThreeOfAKind]);
+            if (
+                maxCount(
+                    cards.replaceAll(maxCards[0][0], "").replaceAll("J", "")
+                )[0][1] == 2
+            ) {
+                thisHand.type = HandType.FullHouse;
+            }
         } else if (
-            maxCards[0][1] === 2 &&
+            highestCardCount === 2 &&
             maxCards[1] &&
             maxCards[1][1] === 2
         ) {
             thisHand.type = HandType.TwoPair;
-            scores[HandType.TwoPair]++;
-            highest[HandType.TwoPair ]= compareHands(thisHand, highest[HandType.TwoPair]);
-        } else if (maxCards[0][1] === 2) {
+        } else if (highestCardCount === 2) {
             thisHand.type = HandType.OnePair;
-            scores[HandType.OnePair]++;
-            highest[HandType.OnePair ]= compareHands(thisHand, highest[HandType.OnePair]);
         } else {
             thisHand.type = HandType.HighCard;
-            scores[HandType.HighCard]++;
-            highest[HandType.HighCard] = compareHands(thisHand, highest[HandType.HighCard]);
         }
         hands.push(thisHand);
     });
-    console.log(
-        hands,
-        highest,
-        scores,
-        lines.length
-    );
-    let output = 0;
-    for(let i = 0; i < scores.length; i++){
-        let position = 0;
-        for(let j = i; j < scores.length; j++){
-            position+=scores[j]
+    hands.sort((a, b) => {
+        //@ts-ignore
+        if (a.type > b.type) {
+            return -1;
+            //@ts-ignore
+        } else if (a.type < b.type) {
+            return 1;
+        } else {
+            return compareHands(a, b);
         }
-        output+=position * highest[i].bet
-        console.log(output,position,highest[i].bet)
+    });
+    let output = 0;
+    for (let i = 0; i < hands.length; i++) {
+        output += hands[i].bet * (i + 1);
+        console.log(
+            hands[i].cards,
+            hands[i].bet,
+            //@ts-ignore
+            HandType[hands[i].type],
+            i + 1,
+            hands[i].bet * (i + 1),
+            output
+        );
     }
-    console.log(output)
+    console.log(output);
 }
 
 function maxCount(input: string) {
@@ -169,7 +136,92 @@ function maxCount(input: string) {
         { max: 0 }
     );
 
-    return Object.entries(counts).filter(([k, v]) => v === max);
+    //@ts-ignore
+    return Object.entries(counts).sort(([k, v], [k2, v2]) => (v < v2 ? 1 : -1));
 }
 
-export default new Day("Camel Cards", 7, task1, undefined);
+function task2() {
+    let input: string = fs.readFileSync("./day7/input.txt").toString();
+    let lines = input.split("\n");
+    console.log(lines);
+    let hands: Hand[] = [];
+    lines.forEach((hand, i) => {
+        let [cards, bet] = hand.split(" ");
+        let maxCards: [string, unknown][] = maxCount(cards);
+        let thisHand: Hand = {
+            cards,
+            bet: parseInt(bet),
+            type: HandType.Null,
+        };
+        // console.log(maxCards)
+        let highestCardCount: unknown = -1;
+        maxCards.forEach(([val, no], i) => {
+            if (val != "J" && highestCardCount == -1) {
+                highestCardCount = no;
+            }
+        });
+        console.log(maxCards)
+        maxCards.forEach(([val, no], i) => {
+            if (val == "J") {
+                //@ts-ignore
+                highestCardCount += no;
+                maxCards.splice(i, 1);
+            }
+        });
+        console.log(highestCardCount);
+        if (highestCardCount === 5) {
+            thisHand.type = HandType.FiveOfAKind;
+        } else if (highestCardCount === 4) {
+            thisHand.type = HandType.FourOfAKind;
+        } else if (highestCardCount === 3) {
+            thisHand.type = HandType.ThreeOfAKind;
+            if (
+                maxCount(
+                    cards.replaceAll(maxCards[0][0], "").replaceAll("J", "")
+                )[0][1] == 2
+            ) {
+                thisHand.type = HandType.FullHouse;
+            }
+        } else if (
+            highestCardCount === 2 &&
+            maxCards[1] &&
+            maxCards[1][1] === 2
+        ) {
+            thisHand.type = HandType.TwoPair;
+        } else if (highestCardCount === 2) {
+            thisHand.type = HandType.OnePair;
+        } else {
+            thisHand.type = HandType.HighCard;
+        }
+        hands.push(thisHand);
+    });
+    hands.sort((a, b) => {
+        //@ts-ignore
+        if (a.type > b.type) {
+            return -1;
+            //@ts-ignore
+        } else if (a.type < b.type) {
+            return 1;
+        } else {
+            return compareHands(a, b);
+        }
+    });
+    let output = 0;
+    for (let i = 1; i <= hands.length; i++) {
+        output += hands[i-1].bet * (i);
+        console.log(
+            hands[i-1].cards,
+            hands[i-1].bet,
+            //@ts-ignore
+            HandType[hands[i-1].type],
+            i,
+            hands[i-1].bet * (i),
+            output
+        );
+    }
+    console.log(output);
+}
+
+//244777904
+
+export default new Day("Camel Cards", 7, task1, task2);

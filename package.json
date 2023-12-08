@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/node": "^7.0.5",
     "axios": "^1.6.1",
+    "mathjs": "^12.1.0",
     "prompt-sync": "^4.2.0"
   }
 }
