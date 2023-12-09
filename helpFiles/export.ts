@@ -4,7 +4,7 @@ export default class Day{
     #runTask1: Function;
     #runTask2: Function | undefined;
 
-    constructor(inname:string, indaynum:number, inrun1: Function, inrun2: Function | undefined){
+    constructor(inname:string, indaynum:number, inrun1: Function, inrun2?: Function | undefined){
         this.name = inname;
         this.dayNumber = indaynum
         this.#runTask1 = inrun1;
