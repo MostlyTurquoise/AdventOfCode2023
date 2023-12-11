@@ -18,8 +18,22 @@ import day6 from "./day6/index.js";
 import day7 from "./day7/index.js";
 import day8 from "./day8/index.js";
 import day9 from "./day9/index.js";
+import day10 from "./day10/index.js";
+import day11 from "./day11/index.js";
 
-let daylist: Day[] = [day1, day2, day3, day4, day5, day6, day7, day8, day9];
+let daylist: Day[] = [
+    day1,
+    day2,
+    day3,
+    day4,
+    day5,
+    day6,
+    day7,
+    day8,
+    day9,
+    day10,
+    day11,
+];
 console.log("Please choose a day:");
 for (let i = 0; i < 25; i++) {
     if (i < daylist.length) {
@@ -43,6 +57,7 @@ const keyboardTopRow = "`qwertyuiop";
 rl.question("Select Day: ", function (day: string) {
     if (day.length == 1) {
         rl.question("Select Task: ", function (task: string) {
+            rl.close();
             console.clear();
             console.time("Run-time");
             daylist[parseInt(day) - 1].run(parseInt(task));
@@ -68,12 +83,13 @@ rl.question("Select Day: ", function (day: string) {
             let actualTask: number =
                 keyboardTopRow.indexOf(day.at(-1) || "") -
                 ((dayVal != 0 ? dayVal : 10) - 2);
+            rl.close();
             console.clear();
             console.time("Run-time");
             try {
                 daylist[actualDay - 1].run(actualTask);
             } catch (err) {
-                console.warn(err)
+                console.warn(err);
                 throw new Error(
                     `Input ${day} invalid U~U (${actualDay - 1} ${actualTask})`
                 );

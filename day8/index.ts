@@ -98,4 +98,4 @@ function isValidEnd_q(nodes:string[]){
     return valid;
 }
 
-export default new Day("Haunted wasteland", 8, task1, task2);
+export default new Day("Haunted Wasteland", 8, task1, task2);
