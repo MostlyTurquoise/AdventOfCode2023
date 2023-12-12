@@ -1,8 +1,7 @@
 import fs from "fs";
 import Day from "../helpFiles/export.js";
-
 function task1() {
-    let input: string = fs.readFileSync("./day11/input.txt").toString();
+    let input = fs.readFileSync("./day11/input.txt").toString();
     let gridOfSpace = input.split("\n").map((e) => {
         return e.split("");
     });
@@ -32,7 +31,7 @@ function task1() {
             column++;
         }
     }
-    let galaxies: { row: number; col: number }[] = [];
+    let galaxies = [];
     for (let row = 0; row < gridOfSpace.length; row++) {
         for (let col = 0; col < gridOfSpace[row].length; col++) {
             if (gridOfSpace[row][col] == "#") {
@@ -52,21 +51,18 @@ function task1() {
             let r2 = galaxies[j].row;
             let c2 = galaxies[j].col;
             let dist = Math.abs(r2 - r1) + Math.abs(c2 - c1);
-            console.log(
-                `Dist ${i} (${r1},${c1}) to ${j} (${r2},${c2}) = ${dist}`
-            );
+            console.log(`Dist ${i} (${r1},${c1}) to ${j} (${r2},${c2}) = ${dist}`);
             totalDistance += dist;
         }
     }
     console.log(totalDistance);
 }
-
 function task2() {
-    let input: string = fs.readFileSync("./day11/input.txt").toString();
+    let input = fs.readFileSync("./day11/input.txt").toString();
     let gridOfSpace = input.split("\n").map((e) => {
         return e.split("");
     });
-    let noGalRows: number[] = [];
+    let noGalRows = [];
     for (let row = 0; row < gridOfSpace.length; row++) {
         let containsGalaxy = false;
         for (let charIn = 0; charIn < gridOfSpace[row].length; charIn++) {
@@ -81,11 +77,10 @@ function task2() {
     let width = gridOfSpace[0].length;
     let height = gridOfSpace.length;
     let galaxyAge = 1000000;
-    let galaxies: { row: number; col: number }[] = [];
-
+    let galaxies = [];
     let trueRow = 0;
     let trueCol = 0;
-    let checkedCols: number[] = [];
+    let checkedCols = [];
     for (let row = 0; row < height; row++) {
         let rowContainsGalaxy = false;
         for (let icol = 0; icol < width; icol++) {
@@ -96,7 +91,6 @@ function task2() {
         if (!rowContainsGalaxy) {
             trueRow += galaxyAge - 1;
         }
-
         for (let col = 0; col < width; col++) {
             console.log(row, col, trueRow, trueCol);
             let containsGalaxy = false;
@@ -110,7 +104,6 @@ function task2() {
                 checkedCols.push(col);
             }
             trueCol++;
-
             if (gridOfSpace[row][col] == "#") {
                 galaxies.push({
                     row: trueRow,
@@ -118,7 +111,6 @@ function task2() {
                 });
             }
         }
-
         trueCol = 0;
         trueRow++;
     }
@@ -131,32 +123,11 @@ function task2() {
             let r2 = galaxies[j].row;
             let c2 = galaxies[j].col;
             let dist = Math.abs(r2 - r1) + Math.abs(c2 - c1);
-            console.log(
-                `Dist ${i} (${r1},${c1}) to ${j} (${r2},${c2}) = ${dist}`
-            );
+            console.log(`Dist ${i} (${r1},${c1}) to ${j} (${r2},${c2}) = ${dist}`);
             totalDistance += dist;
         }
     }
     console.log(totalDistance);
 }
-
-// for (let column = 0; column < width; column++) {
-//     let containsGalaxy = false;
-//     for (let charIn = 0; charIn < height; charIn++) {
-//         if (gridOfSpace[charIn][column] == "#") {
-//             containsGalaxy = true;
-//             galaxies.push({row:charIn, col:column})
-//         }
-//     }
-
-//     if (!containsGalaxy) {
-//         for (let i = 0; i < 1000000; i++) {
-//             gridOfSpace.forEach((row, i) => {
-//                 gridOfSpace[i].splice(column, 0, row[column]);
-//             });
-//             column++;
-//         }
-//     }
-// }
-
 export default new Day("Cosmic Expansion", 11, task1, task2);
+//# sourceMappingURL=index.js.map

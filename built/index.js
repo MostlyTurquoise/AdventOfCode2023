@@ -13,7 +13,20 @@ import day7 from "./day7/index.js";
 import day8 from "./day8/index.js";
 import day9 from "./day9/index.js";
 import day10 from "./day10/index.js";
-let daylist = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10];
+import day11 from "./day11/index.js";
+let daylist = [
+    day1,
+    day2,
+    day3,
+    day4,
+    day5,
+    day6,
+    day7,
+    day8,
+    day9,
+    day10,
+    day11,
+];
 console.log("Please choose a day:");
 for (let i = 0; i < 25; i++) {
     if (i < daylist.length) {
